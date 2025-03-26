@@ -7,6 +7,7 @@ Ensure you have the following before proceeding:
 - **sudo privileges on your machines**
 
 ---
+## i used Containerd as the container runtime
 
 ## Setting up the Master Node
 The master node is responsible for managing the cluster.
@@ -148,5 +149,77 @@ If all nodes show `Ready`, the Kubernetes cluster is successfully set up.
 - Deploy applications on the Kubernetes cluster.
 - Configure persistent storage and ingress controllers.
 - Set up monitoring with Prometheus and Grafana.
+
+##(Optional)
+**Running containerd Without Root Privileges**
+
+### **Steps to Configure containerd for Non-Root Users**
+
+1. **Check if containerd is running**  
+   ```bash
+   ps aux | grep -E 'containerd|dockerd|crio'
+   ```
+   This checks if `containerd`, `dockerd`, or `crio` is running.
+
+2. **Set up `crictl` to use containerd**  
+   ```bash
+   sudo crictl config runtime-endpoint unix:///run/containerd/containerd.sock
+   ```
+   This sets the container runtime endpoint for `crictl`.
+
+3. **Persist the `crictl` configuration**  
+   ```bash
+   echo "runtime-endpoint: unix:///run/containerd/containerd.sock" | sudo tee /etc/crictl.yaml
+   ```
+   Saves the runtime endpoint configuration permanently.
+
+4. **Check permissions on the containerd socket**  
+   ```bash
+   ls -l /run/containerd/containerd.sock
+   stat -c "%G" /run/containerd/containerd.sock
+   ```
+   These commands check the ownership and permissions of the containerd socket.
+
+5. **Add the user to the `containerd` group**  
+   ```bash
+   sudo usermod -aG containerd $USER
+   getent group containerd
+   ```
+   This ensures that your user is part of the `containerd` group.
+
+6. **Create the `containerd` group (if it doesn’t exist)**  
+   ```bash
+   sudo groupadd containerd
+   sudo usermod -aG containerd $USER
+   ```
+   Creates the group and adds your user to it.
+
+7. **Update socket ownership and permissions**  
+   ```bash
+   sudo chown root:containerd /run/containerd/containerd.sock
+   sudo chmod 660 /run/containerd/containerd.sock
+   ```
+   Changes ownership to the `containerd` group and allows read/write access.
+
+8. **Apply group changes without logging out**  
+   ```bash
+   newgrp containerd
+   ```
+   Applies the group changes immediately.
+
+9. **Check the status of `containerd`**  
+   ```bash
+   systemctl status containerd
+   ```
+   Ensures that `containerd` is running properly.
+
+### **Outcome**
+- Normally, `containerd` requires root privileges to interact with its Unix socket.
+- These steps allow non-root users to run container workloads by granting group-based access.
+- After completing these steps, you should be able to use `crictl` or other container runtimes (`nerdctl`, `ctr`) without `sudo`.
+
+This setup improves security by reducing the need for root access while managing containerized workloads.
+
+
 
 This guide provides a minimal setup; for production environments, additional configurations may be necessary.
