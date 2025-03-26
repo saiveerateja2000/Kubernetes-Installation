@@ -150,7 +150,7 @@ If all nodes show `Ready`, the Kubernetes cluster is successfully set up.
 - Configure persistent storage and ingress controllers.
 - Set up monitoring with Prometheus and Grafana.
 
-##(Optional)
+## (Optional)
 **Running containerd Without Root Privileges**
 
 ### **Steps to Configure containerd for Non-Root Users**
