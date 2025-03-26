@@ -242,7 +242,4 @@ spec:
 ✅ **Flexibility:** Allows different storage sizes based on service needs.  
 ✅ **Persistence:** Data remains even if pods restart.  
 
----
-
-**Let me know if you need modifications! 🚀**
 
