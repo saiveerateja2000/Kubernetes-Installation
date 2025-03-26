@@ -213,13 +213,5 @@ If all nodes show `Ready`, the Kubernetes cluster is successfully set up.
    ```
    Ensures that `containerd` is running properly.
 
-### **Outcome**
-- Normally, `containerd` requires root privileges to interact with its Unix socket.
-- These steps allow non-root users to run container workloads by granting group-based access.
-- After completing these steps, you should be able to use `crictl` or other container runtimes (`nerdctl`, `ctr`) without `sudo`.
-
-This setup improves security by reducing the need for root access while managing containerized workloads.
-
-
 
 This guide provides a minimal setup; for production environments, additional configurations may be necessary.
