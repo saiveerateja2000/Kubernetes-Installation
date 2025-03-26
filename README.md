@@ -185,7 +185,7 @@ If all nodes show `Ready`, the Kubernetes cluster is successfully set up.
    sudo usermod -aG containerd $USER
    getent group containerd
    ```
-   This ensures that your user is part of the `containerd` group.
+   This ensures that your user is part of the `containerd` group. If the user is not there follow go to the next stage and create a user and add.
 
 6. **Create the `containerd` group (if it doesn’t exist)**  
    ```bash
