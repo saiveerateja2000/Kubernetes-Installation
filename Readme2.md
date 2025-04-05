@@ -1,4 +1,27 @@
+# 🚀 Kubernetes Installation with Docker Runtime (`cri-dockerd`)
 
+This guide provides a single-script solution to set up Kubernetes v1.29 with Docker using `cri-dockerd` on Ubuntu.
+
+---
+
+## 📜 Script Overview
+
+The script:
+
+- Disables swap
+- Configures kernel modules & sysctl
+- Installs Docker and `cri-dockerd`
+- Sets up Kubernetes packages (`kubelet`, `kubeadm`, `kubectl`)
+
+---
+
+## 🛠️ Instructions
+
+### 1. Save the Script
+
+Create a file named `setup-k8s-docker.sh`:
+
+```bash
 #!/bin/bash
 
 set -e
